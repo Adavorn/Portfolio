@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="js/js.js" defer></script>
+    <title>Chat Bot</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+</head>
+<body>
+
+  <div class="container mt-5">
+    <h1>Welcome to chat</h1>
+    <div id="question" class="mt-4">What is your name?</div>
+    <br>
+    <p id="response" class="lead"></p>
+
+    <form id="answerForm">
+      <div class="input-group mb-3">
+        <input 
+          placeholder="Enter your answer" 
+          type="text" 
+          id="answer" 
+          value="" 
+          class="form-control" 
+          aria-label="Enter answer here">
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </form>
+
+    <form id="birthdayForm" style="display: none;">
+      <div class="input-group mb-3">
+        <select 
+          name="months" 
+          id="months" 
+          class="form-select" 
+          aria-label="Select your birth month">
+            <option value="January">January</option>
+            <option value="February">February</option>
+            <option value="March">March</option>
+            <option value="April">April</option>
+            <option value="May">May</option>
+            <option value="June">June</option>
+            <option value="July">July</option>
+            <option value="August">August</option>
+            <option value="September">September</option>
+            <option value="October">October</option>
+            <option value="November">November</option>
+            <option value="December">December</option>
+        </select>
+
+        <input 
+          placeholder="Day" 
+          type="number" 
+          id="birthdayDayAnswer" 
+          value="" 
+          min="1" 
+          max="31" 
+          class="form-control" 
+          aria-label="Enter day of birthday">
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </form>
+
+    <form id="holidayForm" style="display: none;">
+      <div class="input-group mb-3">
+        <select 
+          name="holidays" 
+          id="holidays" 
+          class="form-select" 
+          aria-label="Select your favorite holiday">
+            <option value="Chinese New Year">Chinese New Year</option>
+            <option value="Christmas">Christmas</option>
+            <option value="Easter">Easter</option>
+            <option value="Halloween">Halloween</option>
+            <option value="Thanksgiving">Thanksgiving</option>
+            <option value="Valentine's Day">Valentine's Day</option>
+            <option value="New Year's Day">New Year's Day</option>
+            <option value="Independence Day">Independence Day</option>
+            <option value="Hanukkah">Hanukkah</option>
+            <option value="Kwanzaa">Kwanzaa</option>
+            <option value="Ramadan">Ramadan</option>
+        </select>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </form>
+
+    <br>
+
+    <button id="restartButton" class="btn btn-danger">Restart</button>
+
+  </div> 
+
+</body>
+</html>
