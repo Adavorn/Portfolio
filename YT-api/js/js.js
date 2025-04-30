@@ -13,7 +13,7 @@ searchButton.addEventListener("click", () => {
   fetch(url)
     .then(response => response.json())
     .then(results => {
-      resultsDiv.innerHTML = ""; // clear previous results
+      resultsDiv.innerHTML = "";
 
       results.items.forEach(item => {
         if (item.id.videoId) {

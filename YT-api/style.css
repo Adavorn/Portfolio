@@ -1,18 +1,19 @@
 
 body {
     font-family: 'Segoe UI', sans-serif;
-    background-color: #f4f4f4;
+    background-color: #121212;
+    color: #e0e0e0;
     padding: 2rem;
-    color: #333;
+    margin: 0;
   }
-
+  
   main {
     max-width: 800px;
     margin: auto;
-    background-color: #fff;
+    background-color: #1e1e1e;
     padding: 2rem;
     border-radius: 12px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
   }
   
 
@@ -21,14 +22,16 @@ body {
     padding: 0.5rem;
     font-size: 1rem;
     margin-right: 1rem;
-    border: 1px solid #ccc;
+    border: 1px solid #444;
+    background-color: #2a2a2a;
+    color: #fff;
     border-radius: 6px;
   }
   
   button {
     padding: 0.5rem 1rem;
     font-size: 1rem;
-    background-color: crimson;
+    background-color: #bb2222;
     color: white;
     border: none;
     border-radius: 6px;
@@ -36,7 +39,7 @@ body {
   }
   
   button:hover {
-    background-color: darkred;
+    background-color: #990000;
   }
   
 
@@ -44,14 +47,14 @@ body {
     margin-top: 2rem;
     max-height: 500px;
     overflow-y: auto;
-    border-top: 1px solid #ddd;
+    border-top: 1px solid #333;
     padding-top: 1rem;
   }
   
 
   #results div {
     margin-bottom: 2rem;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #333;
     padding-bottom: 1rem;
   }
   
@@ -62,9 +65,9 @@ body {
     margin-top: 0.5rem;
   }
   
-
+ 
   #results a {
-    color: #2a5db0;
+    color: #66aaff;
     text-decoration: none;
     font-weight: bold;
     display: inline-block;
