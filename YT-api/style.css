@@ -1,0 +1,76 @@
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f4f4f4;
+    padding: 2rem;
+    color: #333;
+  }
+
+  main {
+    max-width: 800px;
+    margin: auto;
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  
+
+  input[type="text"] {
+    width: 70%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    margin-right: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+  
+  button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    background-color: crimson;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: darkred;
+  }
+  
+
+  #results {
+    margin-top: 2rem;
+    max-height: 500px;
+    overflow-y: auto;
+    border-top: 1px solid #ddd;
+    padding-top: 1rem;
+  }
+  
+
+  #results div {
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 1rem;
+  }
+  
+
+  #results img {
+    max-width: 100%;
+    border-radius: 8px;
+    margin-top: 0.5rem;
+  }
+  
+
+  #results a {
+    color: #2a5db0;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+    margin-top: 0.5rem;
+  }
+  
+  #results a:hover {
+    text-decoration: underline;
+  }
