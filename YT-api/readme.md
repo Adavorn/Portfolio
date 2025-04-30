@@ -16,8 +16,8 @@ A simple and stylish web app that lets users search YouTube videos using the [Yo
 
 ##  Live Demo
 
-> [ View Live on GitHub Pages](https://yourusername.github.io/youtube-api-search-app/)  
-> *(Replace with your actual GitHub Pages URL)*
+> [ View Live on GitHub Pages](https://adavorn.github.io/Portfolio/)
+
 
 
 ##  Technologies Used
@@ -28,11 +28,3 @@ A simple and stylish web app that lets users search YouTube videos using the [Yo
 - YouTube Data API v3
 - GitHub Pages for deployment
 
----
-
-##  How to Run Locally
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/yourusername/youtube-api-search-app.git
-   cd youtube-api-search-app
