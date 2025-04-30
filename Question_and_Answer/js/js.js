@@ -121,6 +121,7 @@ function runChatbot(event) {
     birthdayForm.style.display = "none";
     holidayForm.style.display = "none";
     answer.value = "";
+    return;
 
   }
   if (questionNumber === 0) {
