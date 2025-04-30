@@ -1,4 +1,4 @@
-const apiKey = process.env.REACT_APP_API_KEY
+const apiKey = "AIzaSyDBUOvl7dORuEal9d-W3I0v2Ev_FCma1L8"
 
 const search = document.getElementById("searchButton")
 
