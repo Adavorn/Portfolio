@@ -1,8 +1,10 @@
-const apiKey = "AIzaSyDBUOvl7dORuEal9d-W3I0v2Ev_FCma1L8"
+const apiKey = "AIzaSyDBUOvl7dORuEal9d-W3I0v2Ev_FCma1L8";
 
-const search = document.getElementById("searchButton")
+const search = document.getElementById("searchButton");
 
-const googleAPIUrl = "https://www.googleapis.com/youtube/v3/search"
+const resultsDiv = document.getElementById("results");
+
+const googleAPIUrl = "https://www.googleapis.com/youtube/v3/search";
 
 searchButton.addEventListener("click", (e) => {
 
@@ -14,6 +16,22 @@ searchButton.addEventListener("click", (e) => {
 
     const url = googleAPIUrl + searchQuery;
     
-    fetch(url);
+    fetch(url)
+    .then(response => response.json())
+    .then((results) => {
+      
+        results.items.forEach(item => {
+           
+            if (item.id.videoId === undefined) {
+            const link = `https://www.youtube.com/watch?v=${item.id.videoId}`;
+            console.log(link);
+
+            }
+
+            
+
+      })
+    })
+
 
 });
