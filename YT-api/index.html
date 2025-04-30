@@ -1,26 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Youtube Api</title>
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="js/js.js" defer></script>
+  <title>YouTube API Search</title>
 </head>
 <body>
-    <h1>Youtube Api</h1>
+  <main>
+    <h1>YouTube API Search</h1>
 
-
-    <label for="searchQuery">Search on Youtube</label>
-    <input type="text" id="searchQuery" name="searchQuery">
+    <label for="searchQuery">Search YouTube Videos:</label>
+    <input
+      type="text"
+      id="searchQuery"
+      name="searchQuery"
+      placeholder="e.g. JavaScript tutorials"
+    />
 
     <button id="searchButton">Search</button>
-   
-    <br>
-    <br>
-    <br>
 
-    <div id="results">Results</div>
-
-
+    <section id="results" aria-live="polite" style="margin-top: 2em;">
+ 
+    </section>
+  </main>
 </body>
 </html>
