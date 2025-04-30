@@ -81,6 +81,6 @@ I'm **Jacob King**, a web developer with a passion for building accessible, purp
 
 ---
 
-## 📄 License
+##  License
 
 This repository is open-source and available under the [MIT License](https://opensource.org/licenses/MIT).
