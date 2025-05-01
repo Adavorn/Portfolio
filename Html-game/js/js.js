@@ -3,15 +3,20 @@ const ctx = canvas.getContext("2d");
 
 
 const player = new Image();
-player.src = "img/player.png";
+player.src = "img/player.png"; 
 
 
 let x = 100;
 let y = 100;
 const speed = 2;
 const keys = {};
-let health = 3;
+const maxHealth = 5;
+let health = maxHealth;
 let isDead = false;
+
+
+let score = 0;
+let hasPower = false;
 
 
 const obstacleCount = 5;
@@ -29,16 +34,38 @@ for (let i = 0; i < obstacleCount; i++) {
 }
 
 
+let powerup = {
+  x: Math.random() * (canvas.width - 20),
+  y: Math.random() * (canvas.height - 20),
+  width: 20,
+  height: 20,
+  color: "gold"
+};
+
+
 document.addEventListener("keydown", (e) => {
   const key = e.key.toLowerCase();
   keys[key] = true;
 
   if (isDead && key === "r") {
-
-    health = 5;
+    health = maxHealth;
     isDead = false;
     x = 100;
     y = 100;
+    score = 0;
+    hasPower = false;
+  
+    obstacles.length = 0;
+    for (let i = 0; i < obstacleCount; i++) {
+      obstacles.push({
+        x: Math.random() * (canvas.width - 50),
+        y: Math.random() * (canvas.height - 50),
+        width: 50,
+        height: 50,
+        speedX: (Math.random() * 1.5 + 0.5) * (Math.random() < 0.5 ? 1 : -1),
+        speedY: (Math.random() * 1.5 + 0.5) * (Math.random() < 0.5 ? 1 : -1)
+      });
+    }
   }
 });
 
@@ -58,13 +85,14 @@ function checkCollision(rect1, rect2) {
 
 
 function gameLoop() {
-
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+
   ctx.fillStyle = "#89c79c";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   if (!isDead) {
-  
+
     if (keys["w"]) y -= speed;
     if (keys["s"]) y += speed;
     if (keys["a"]) x -= speed;
@@ -76,12 +104,27 @@ function gameLoop() {
   }
 
 
+  if (!hasPower) {
+    ctx.fillStyle = powerup.color;
+    ctx.beginPath();
+    ctx.arc(powerup.x + 10, powerup.y + 10, 10, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+
+  if (!hasPower && checkCollision({ x, y, width: 64, height: 64 }, powerup)) {
+    hasPower = true;
+    console.log("⚡ Power acquired!");
+  }
+
+
   ctx.fillStyle = "red";
-  for (let obs of obstacles) {
+  for (let i = 0; i < obstacles.length; i++) {
+    const obs = obstacles[i];
+
     if (!isDead) {
       obs.x += obs.speedX;
       obs.y += obs.speedY;
-
 
       if (obs.x < 0 || obs.x + obs.width > canvas.width) obs.speedX *= -1;
       if (obs.y < 0 || obs.y + obs.height > canvas.height) obs.speedY *= -1;
@@ -89,13 +132,26 @@ function gameLoop() {
 
     ctx.fillRect(obs.x, obs.y, obs.width, obs.height);
 
+
     if (!isDead && checkCollision({ x, y, width: 64, height: 64 }, obs)) {
-      health--;
-      console.log(`💥 COLLISION! Health: ${health}`);
-      obs.x = Math.random() * (canvas.width - 50);
-      obs.y = Math.random() * (canvas.height - 50);
-      if (health <= 0) {
-        isDead = true;
+      if (hasPower) {
+
+        obstacles.splice(i, 1);
+        score++;
+        hasPower = false;
+
+
+        powerup.x = Math.random() * (canvas.width - 20);
+        powerup.y = Math.random() * (canvas.height - 20);
+        break;
+      } else {
+        health--;
+        console.log(`💥 HIT! Health: ${health}`);
+        obs.x = Math.random() * (canvas.width - 50);
+        obs.y = Math.random() * (canvas.height - 50);
+        if (health <= 0) {
+          isDead = true;
+        }
       }
     }
   }
@@ -107,8 +163,17 @@ function gameLoop() {
 
 
   ctx.fillStyle = "black";
-  ctx.font = "20px Arial";
-  ctx.fillText(`Health: ${health}`, 20, 30);
+  ctx.fillRect(20, 20, 200, 20);
+  ctx.fillStyle = "limegreen";
+  ctx.fillRect(20, 20, (health / maxHealth) * 200, 20);
+  ctx.fillStyle = "white";
+  ctx.font = "14px Arial";
+  ctx.fillText(`Health: ${health}/${maxHealth}`, 25, 35);
+
+
+  ctx.fillStyle = "white";
+  ctx.font = "16px Arial";
+  ctx.fillText(`Score: ${score}`, 20, 60);
 
 
   if (isDead) {
