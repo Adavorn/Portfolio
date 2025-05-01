@@ -1,8 +1,10 @@
 
 canvas{
-    background-color: rgb(145,200,155)
+    border: 2px rgb(145,200,155);
+    display: block;
+    margin: 0;
 }
 body{
     margin: 0 auto;
-    overflow: hidden;
+
 }

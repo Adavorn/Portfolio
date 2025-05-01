@@ -3,8 +3,14 @@ const canvas = document.getElementById("canvas");
 
 const ctx = canvas.getContext("2d");
 
-ctx.moveTo(0, 0);
+var player = new Image();
 
-ctx.lineTo(100, 1000);
+player.src = "player.png"; 
 
-ctx.stroke();
+var x = 0;
+var y = 0;
+
+player.onload = function() {
+    ctx.drawImage(player, x, y, 75, 75);
+
+}
