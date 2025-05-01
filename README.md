@@ -32,6 +32,14 @@ An interactive chatbot experience that collects a user’s name, birthday, favor
 
 ---
 
+###  [Battle Game](https://adavorn.github.io/Portfolio/Html-game/)
+A pixel-art survival game where players dodge enemies, collect magical powerups, and fight back. Features include health tracking, enemy respawning, power charge mechanics, and a custom start menu.
+
+**Technologies:** HTML, CSS, JavaScript, HTML5 Canvas  
+**Highlights:** Game loop logic, collision detection, sprite animation, UI overlays, state management
+
+---
+
 ## 🛠 Technologies Used
 
 - HTML5  
@@ -68,7 +76,8 @@ They are intended for **learning, demonstration, and portfolio** purposes only.
 - Add pagination and loading indicators to the YouTube app  
 - Include video metadata such as duration and channel  
 - Add additional subprojects with API integration  
-- Migrate sensitive logic to backend proxies for security
+- Migrate sensitive logic to backend proxies for security  
+- Add difficulty scaling, sound effects, and sprite animation to Battle Game
 
 ---
 
