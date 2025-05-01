@@ -1,4 +1,8 @@
 
 canvas{
-    background-color: green
+    background-color: rgb(145,200,155)
+}
+body{
+    margin: 0 auto;
+    overflow: hidden;
 }
