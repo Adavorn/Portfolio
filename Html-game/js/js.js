@@ -4,6 +4,9 @@ const ctx = canvas.getContext("2d");
 const player = new Image();
 player.src = "img/player.png";
 
+const enemyImage = new Image();
+enemyImage.src = "img/enemy.png";
+
 let x = 100;
 let y = 100;
 const speed = 2;
@@ -21,10 +24,10 @@ const obstacles = [];
 
 for (let i = 0; i < obstacleCount; i++) {
   obstacles.push({
-    x: Math.random() * (canvas.width - 50),
-    y: Math.random() * (canvas.height - 50),
-    width: 50,
-    height: 50,
+    x: Math.random() * (canvas.width - 96),
+    y: Math.random() * (canvas.height - 96),
+    width: 96,
+    height: 96,
     speedX: (Math.random() * 1.5 + 0.5) * (Math.random() < 0.5 ? 1 : -1),
     speedY: (Math.random() * 1.5 + 0.5) * (Math.random() < 0.5 ? 1 : -1)
   });
@@ -53,10 +56,10 @@ document.addEventListener("keydown", (e) => {
     obstacles.length = 0;
     for (let i = 0; i < obstacleCount; i++) {
       obstacles.push({
-        x: Math.random() * (canvas.width - 50),
-        y: Math.random() * (canvas.height - 50),
-        width: 50,
-        height: 50,
+        x: Math.random() * (canvas.width - 96),
+        y: Math.random() * (canvas.height - 96),
+        width: 96,
+        height: 96,
         speedX: (Math.random() * 1.5 + 0.5) * (Math.random() < 0.5 ? 1 : -1),
         speedY: (Math.random() * 1.5 + 0.5) * (Math.random() < 0.5 ? 1 : -1)
       });
@@ -79,7 +82,6 @@ function checkCollision(rect1, rect2) {
 
 function gameLoop() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-
   ctx.fillStyle = "#89c79c";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -89,8 +91,8 @@ function gameLoop() {
     if (keys["a"]) x -= speed;
     if (keys["d"]) x += speed;
 
-    x = Math.max(0, Math.min(x, canvas.width - 64));
-    y = Math.max(0, Math.min(y, canvas.height - 64));
+    x = Math.max(0, Math.min(x, canvas.width - 96));
+    y = Math.max(0, Math.min(y, canvas.height - 96));
   }
 
   if (!hasPower) {
@@ -100,12 +102,11 @@ function gameLoop() {
     ctx.fill();
   }
 
-  if (!hasPower && checkCollision({ x, y, width: 64, height: 64 }, powerup)) {
+  if (!hasPower && checkCollision({ x, y, width: 96, height: 96 }, powerup)) {
     hasPower = true;
     powerCharges = 3;
   }
 
-  ctx.fillStyle = "red";
   for (let i = 0; i < obstacles.length; i++) {
     const obs = obstacles[i];
 
@@ -117,19 +118,21 @@ function gameLoop() {
       if (obs.y < 0 || obs.y + obs.height > canvas.height) obs.speedY *= -1;
     }
 
-    ctx.fillRect(obs.x, obs.y, obs.width, obs.height);
+    if (enemyImage.complete) {
+      ctx.drawImage(enemyImage, obs.x, obs.y, obs.width, obs.height);
+    }
 
-    if (!isDead && checkCollision({ x, y, width: 64, height: 64 }, obs)) {
+    if (!isDead && checkCollision({ x, y, width: 96, height: 96 }, obs)) {
       if (hasPower) {
         obstacles.splice(i, 1);
         score++;
         powerCharges--;
 
         obstacles.push({
-          x: Math.random() * (canvas.width - 50),
-          y: Math.random() * (canvas.height - 50),
-          width: 50,
-          height: 50,
+          x: Math.random() * (canvas.width - 96),
+          y: Math.random() * (canvas.height - 96),
+          width: 96,
+          height: 96,
           speedX: (Math.random() * 1.5 + 0.5) * (Math.random() < 0.5 ? 1 : -1),
           speedY: (Math.random() * 1.5 + 0.5) * (Math.random() < 0.5 ? 1 : -1)
         });
@@ -143,8 +146,8 @@ function gameLoop() {
         break;
       } else {
         health--;
-        obs.x = Math.random() * (canvas.width - 50);
-        obs.y = Math.random() * (canvas.height - 50);
+        obs.x = Math.random() * (canvas.width - 96);
+        obs.y = Math.random() * (canvas.height - 96);
         if (health <= 0) {
           isDead = true;
         }
@@ -153,7 +156,7 @@ function gameLoop() {
   }
 
   if (!isDead && player.complete) {
-    ctx.drawImage(player, x, y, 64, 64);
+    ctx.drawImage(player, x, y, 96, 96);
   }
 
   ctx.fillStyle = "black";
@@ -174,7 +177,6 @@ function gameLoop() {
   if (isDead) {
     ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-
     ctx.fillStyle = "white";
     ctx.textAlign = "center";
     ctx.font = "48px Arial";
