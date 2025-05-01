@@ -12,20 +12,24 @@ const speed = 2;
 const keys = {};
 
 
-let obstacle = {
-  x: 400,
-  y: 200,
-  width: 50,
-  height: 50,
-  speedX: 3,
-  speedY: 0
-};
+const obstacleCount = 4;
+const obstacles = [];
+
+for (let i = 0; i < obstacleCount; i++) {
+  obstacles.push({
+    x: Math.random() * (canvas.width - 50),
+    y: Math.random() * (canvas.height - 50),
+    width: 35,
+    height: 35,
+    speedX: (Math.random() * 1.0 + 0.5) * (Math.random() < 0.5 ? 1 : -1),
+    speedY: (Math.random() * 1.0 + 0.5) * (Math.random() < 0.5 ? 1 : -1)
+  });
+}
 
 
 document.addEventListener("keydown", (e) => {
   keys[e.key.toLowerCase()] = true;
 });
-
 document.addEventListener("keyup", (e) => {
   keys[e.key.toLowerCase()] = false;
 });
@@ -49,37 +53,37 @@ function gameLoop() {
   if (keys["d"]) x += speed;
 
 
-  obstacle.x += obstacle.speedX;
-  obstacle.y += obstacle.speedY;
-
-  if (obstacle.x + obstacle.width > canvas.width || obstacle.x < 0) {
-    obstacle.speedX *= -1;
-  }
-
-  if (obstacle.y + obstacle.height > canvas.height || obstacle.y < 0) {
-    obstacle.speedY *= -1;
-  }
+  x = Math.max(0, Math.min(x, canvas.width - 64));
+  y = Math.max(0, Math.min(y, canvas.height - 64));
 
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = "#89c79c";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-
   ctx.fillStyle = "red";
-  ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
+  for (let obs of obstacles) {
+    obs.x += obs.speedX;
+    obs.y += obs.speedY;
+
+
+    if (obs.x < 0 || obs.x + obs.width > canvas.width) obs.speedX *= -1;
+    if (obs.y < 0 || obs.y + obs.height > canvas.height) obs.speedY *= -1;
+
+    ctx.fillRect(obs.x, obs.y, obs.width, obs.height);
+
+
+    if (checkCollision({ x, y, width: 64, height: 64 }, obs)) {
+      console.log("💥 COLLISION! Dodge better!");
+    }
+  }
+
 
   if (player.complete) {
     ctx.drawImage(player, x, y, 64, 64);
   }
 
-
-  let playerBox = { x, y, width: 64, height: 64 };
-  if (checkCollision(playerBox, obstacle)) {
-    console.log("💥 COLLISION! Dodge better!");
-  }
-
   requestAnimationFrame(gameLoop);
 }
 
-gameLoop()
+gameLoop();
