@@ -7,6 +7,9 @@ player.src = "img/player.png";
 const enemyImage = new Image();
 enemyImage.src = "img/enemy.png";
 
+const powerupImage = new Image();
+powerupImage.src = "img/powerup.png";
+
 let x = 100;
 let y = 100;
 const speed = 2;
@@ -18,34 +21,52 @@ let isDead = false;
 let score = 0;
 let hasPower = false;
 let powerCharges = 0;
+let gameStarted = false;
+let showInstructions = false;
 
 const obstacleCount = 5;
 const obstacles = [];
 
-for (let i = 0; i < obstacleCount; i++) {
-  obstacles.push({
-    x: Math.random() * (canvas.width - 96),
-    y: Math.random() * (canvas.height - 96),
-    width: 96,
-    height: 96,
-    speedX: (Math.random() * 1.5 + 0.5) * (Math.random() < 0.5 ? 1 : -1),
-    speedY: (Math.random() * 1.5 + 0.5) * (Math.random() < 0.5 ? 1 : -1)
-  });
+function initObstacles() {
+  obstacles.length = 0;
+  for (let i = 0; i < obstacleCount; i++) {
+    obstacles.push({
+      x: Math.random() * (canvas.width - 96),
+      y: Math.random() * (canvas.height - 96),
+      width: 96,
+      height: 96,
+      speedX: (Math.random() * 1.5 + 0.5) * (Math.random() < 0.5 ? 1 : -1),
+      speedY: (Math.random() * 1.5 + 0.5) * (Math.random() < 0.5 ? 1 : -1)
+    });
+  }
 }
 
 let powerup = {
   x: Math.random() * (canvas.width - 20),
   y: Math.random() * (canvas.height - 20),
-  width: 20,
-  height: 20,
-  color: "gold"
+  width: 32,
+  height: 32
 };
 
 document.addEventListener("keydown", (e) => {
   const key = e.key.toLowerCase();
   keys[key] = true;
 
-  if (isDead && key === "r") {
+  if (!gameStarted && key === "1") {
+    gameStarted = true;
+    isDead = false;
+    health = maxHealth;
+    score = 0;
+    hasPower = false;
+    powerCharges = 0;
+    x = 100;
+    y = 100;
+    initObstacles();
+  } else if (!gameStarted && key === "2") {
+    showInstructions = true;
+  } else if (!gameStarted && key === "escape") {
+    showInstructions = false;
+  } else if (isDead && key === "r") {
     health = maxHealth;
     isDead = false;
     x = 100;
@@ -53,17 +74,7 @@ document.addEventListener("keydown", (e) => {
     score = 0;
     hasPower = false;
     powerCharges = 0;
-    obstacles.length = 0;
-    for (let i = 0; i < obstacleCount; i++) {
-      obstacles.push({
-        x: Math.random() * (canvas.width - 96),
-        y: Math.random() * (canvas.height - 96),
-        width: 96,
-        height: 96,
-        speedX: (Math.random() * 1.5 + 0.5) * (Math.random() < 0.5 ? 1 : -1),
-        speedY: (Math.random() * 1.5 + 0.5) * (Math.random() < 0.5 ? 1 : -1)
-      });
-    }
+    initObstacles();
   }
 });
 
@@ -82,6 +93,30 @@ function checkCollision(rect1, rect2) {
 
 function gameLoop() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  if (!gameStarted) {
+    ctx.fillStyle = "#222";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "white";
+    ctx.textAlign = "center";
+    ctx.font = "48px Arial";
+    ctx.fillText("🎮 Welcome to the Game", canvas.width / 2, canvas.height / 2 - 100);
+    ctx.font = "24px Arial";
+    ctx.fillText("1 - Start Game", canvas.width / 2, canvas.height / 2);
+    ctx.fillText("2 - How to Play", canvas.width / 2, canvas.height / 2 + 40);
+
+    if (showInstructions) {
+      ctx.fillText("Use W A S D to move", canvas.width / 2, canvas.height / 2 + 100);
+      ctx.fillText("Avoid enemies unless you have a powerup", canvas.width / 2, canvas.height / 2 + 140);
+      ctx.fillText("Collect powerups to defeat enemies (3 charges)", canvas.width / 2, canvas.height / 2 + 180);
+      ctx.fillText("Press R after death to restart", canvas.width / 2, canvas.height / 2 + 220);
+      ctx.fillText("Press ESC to go back", canvas.width / 2, canvas.height / 2 + 260);
+    }
+    ctx.textAlign = "start";
+    requestAnimationFrame(gameLoop);
+    return;
+  }
+
   ctx.fillStyle = "#89c79c";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -96,10 +131,9 @@ function gameLoop() {
   }
 
   if (!hasPower) {
-    ctx.fillStyle = powerup.color;
-    ctx.beginPath();
-    ctx.arc(powerup.x + 10, powerup.y + 10, 10, 0, Math.PI * 2);
-    ctx.fill();
+    if (powerupImage.complete) {
+      ctx.drawImage(powerupImage, powerup.x, powerup.y, powerup.width, powerup.height);
+    }
   }
 
   if (!hasPower && checkCollision({ x, y, width: 96, height: 96 }, powerup)) {
