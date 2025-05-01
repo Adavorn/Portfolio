@@ -7,7 +7,7 @@ A 2D pixel-art survival game built with **HTML5 Canvas** and **JavaScript**. Dod
 
 ##  Play It Live
 
-[▶ Launch Battle Game](https://adavorn.github.io/Portfolio/Html-game/)
+[ Launch Battle Game](https://adavorn.github.io/Portfolio/Html-game/)
 
 ---
 
