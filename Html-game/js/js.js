@@ -1,10 +1,8 @@
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
-
 const player = new Image();
-player.src = "img/player.png"; 
-
+player.src = "img/player.png";
 
 let x = 100;
 let y = 100;
@@ -14,10 +12,9 @@ const maxHealth = 5;
 let health = maxHealth;
 let isDead = false;
 
-
 let score = 0;
 let hasPower = false;
-
+let powerCharges = 0;
 
 const obstacleCount = 5;
 const obstacles = [];
@@ -33,7 +30,6 @@ for (let i = 0; i < obstacleCount; i++) {
   });
 }
 
-
 let powerup = {
   x: Math.random() * (canvas.width - 20),
   y: Math.random() * (canvas.height - 20),
@@ -41,7 +37,6 @@ let powerup = {
   height: 20,
   color: "gold"
 };
-
 
 document.addEventListener("keydown", (e) => {
   const key = e.key.toLowerCase();
@@ -54,7 +49,7 @@ document.addEventListener("keydown", (e) => {
     y = 100;
     score = 0;
     hasPower = false;
-  
+    powerCharges = 0;
     obstacles.length = 0;
     for (let i = 0; i < obstacleCount; i++) {
       obstacles.push({
@@ -73,7 +68,6 @@ document.addEventListener("keyup", (e) => {
   keys[e.key.toLowerCase()] = false;
 });
 
-
 function checkCollision(rect1, rect2) {
   return (
     rect1.x < rect2.x + rect2.width &&
@@ -83,26 +77,21 @@ function checkCollision(rect1, rect2) {
   );
 }
 
-
 function gameLoop() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-
 
   ctx.fillStyle = "#89c79c";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   if (!isDead) {
-
     if (keys["w"]) y -= speed;
     if (keys["s"]) y += speed;
     if (keys["a"]) x -= speed;
     if (keys["d"]) x += speed;
 
-
     x = Math.max(0, Math.min(x, canvas.width - 64));
     y = Math.max(0, Math.min(y, canvas.height - 64));
   }
-
 
   if (!hasPower) {
     ctx.fillStyle = powerup.color;
@@ -111,12 +100,10 @@ function gameLoop() {
     ctx.fill();
   }
 
-
   if (!hasPower && checkCollision({ x, y, width: 64, height: 64 }, powerup)) {
     hasPower = true;
-    console.log("⚡ Power acquired!");
+    powerCharges = 3;
   }
-
 
   ctx.fillStyle = "red";
   for (let i = 0; i < obstacles.length; i++) {
@@ -132,21 +119,30 @@ function gameLoop() {
 
     ctx.fillRect(obs.x, obs.y, obs.width, obs.height);
 
-
     if (!isDead && checkCollision({ x, y, width: 64, height: 64 }, obs)) {
       if (hasPower) {
-
         obstacles.splice(i, 1);
         score++;
-        hasPower = false;
+        powerCharges--;
 
+        obstacles.push({
+          x: Math.random() * (canvas.width - 50),
+          y: Math.random() * (canvas.height - 50),
+          width: 50,
+          height: 50,
+          speedX: (Math.random() * 1.5 + 0.5) * (Math.random() < 0.5 ? 1 : -1),
+          speedY: (Math.random() * 1.5 + 0.5) * (Math.random() < 0.5 ? 1 : -1)
+        });
+
+        if (powerCharges <= 0) {
+          hasPower = false;
+        }
 
         powerup.x = Math.random() * (canvas.width - 20);
         powerup.y = Math.random() * (canvas.height - 20);
         break;
       } else {
         health--;
-        console.log(`💥 HIT! Health: ${health}`);
         obs.x = Math.random() * (canvas.width - 50);
         obs.y = Math.random() * (canvas.height - 50);
         if (health <= 0) {
@@ -156,11 +152,9 @@ function gameLoop() {
     }
   }
 
-
   if (!isDead && player.complete) {
     ctx.drawImage(player, x, y, 64, 64);
   }
-
 
   ctx.fillStyle = "black";
   ctx.fillRect(20, 20, 200, 20);
@@ -170,11 +164,12 @@ function gameLoop() {
   ctx.font = "14px Arial";
   ctx.fillText(`Health: ${health}/${maxHealth}`, 25, 35);
 
-
-  ctx.fillStyle = "white";
   ctx.font = "16px Arial";
   ctx.fillText(`Score: ${score}`, 20, 60);
 
+  if (hasPower) {
+    ctx.fillText(`Power Charges: ${powerCharges}`, 20, 80);
+  }
 
   if (isDead) {
     ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
