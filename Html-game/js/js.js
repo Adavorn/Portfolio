@@ -1,0 +1,10 @@
+
+const canvas = document.getElementById("canvas");
+
+const ctx = canvas.getContext("2d");
+
+ctx.moveTo(0, 0);
+
+ctx.lineTo(100, 1000);
+
+ctx.stroke();
